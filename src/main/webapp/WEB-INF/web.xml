@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns="http://java.sun.com/xml/ns/javaee" 
+xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+version="2.5">
+  <welcome-file-list>
+    <welcome-file>welcome.jsp</welcome-file>
+  </welcome-file-list>
+  <listener>
+    <listener-class>com.kiiik.sso.SSOClientListener</listener-class>
+  </listener>
+  <listener>
+    <listener-class>com.kiiik.sso.SSOSessionListener</listener-class>
+  </listener>
+  <filter>
+    <filter-name>SSOAUTOLOGIN</filter-name>
+    <filter-class>com.kiiik.sso.SSOAutoLoginFilter</filter-class>
+    <!-- 认证服务地址配置 -->
+    <init-param>
+      <param-name>casServer</param-name>
+      <param-value>http://auth.cyb.com/DhCasServer/login.jsp</param-value>
+    </init-param>
+     <!-- 当前应用根目录配置 -->
+    <init-param>
+      <param-name>myName</param-name>
+      <param-value>http://first.cyb.com/DhCasClient1/</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>SSOAUTOLOGIN</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <servlet>
+    <servlet-name>logout</servlet-name>
+    <servlet-class>com.kiiik.sso.LoginOutServlet</servlet-class>
+    <!-- 当前应用根退出页面配置 -->
+    <init-param>
+      <param-name>loginOutPage</param-name>
+      <param-value>http://auth.cyb.com/DhCasClient1/exit.jsp</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>logout</servlet-name>
+    <url-pattern>/logout</url-pattern>
+  </servlet-mapping>
+</web-app>
